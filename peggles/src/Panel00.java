@@ -195,6 +195,7 @@ public class Panel00 extends JPanel {
 		g.drawString("Score: " + points + " Resets: " + lives, 10, 15);
 		//Music bang = new Music("bab.wav",true); 
 		//bang.play();
+		
 	}
 	
 	private class Key extends KeyAdapter {

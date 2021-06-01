@@ -71,7 +71,7 @@ public class Driver extends JPanel implements MouseMotionListener{
    menu.setLocationRelativeTo(null);
    
   JFrame frame = new JFrame();
-  frame.setSize(1920,1080);
+  frame.setSize(1010,1080);
   
    
    // create a label to display text

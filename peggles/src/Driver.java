@@ -124,7 +124,7 @@ public class Driver extends JPanel implements MouseMotionListener{
     // display/center the jdialog when the button is pressed
 	  menu.setVisible(false);
 	  frame.setVisible(true);
-	  ImageFollowingMouseTest.createAndShowGUI();
+	  //ImageFollowingMouseTest.createAndShowGUI();
 	  
 	//music
 	muteControl.setValue(true);

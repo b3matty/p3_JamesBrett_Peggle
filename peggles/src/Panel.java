@@ -38,19 +38,19 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	boolean rdown, ldown;
 	
 	int preset[][] = {
-		{150, 50, 0, 0,0}, //right paddle
-		{0, 0, 0, 0,0}, //left paddle
-		{0, 0, 0, 0,0}, //first bouncey thingy
-		{0, 0, 0, 0,0}, //right wall
-		{0, 0, 0, 0,0}, //top wall
-		{0, 0, 0, 0,0} //left wall	
+		{0, 400, 135, 450,1}, //right paddle
+		{135, 450, 270, 400,1}, //left paddle
+		{270, 0, 300, 20, 1}, //first bouncey thingy
+		{1700, 0, 1700, 1000, 1}, //right wall
+		{-1, 0, 270, 0, 1}, //top wall
+		{20, -1, 20, 1100, 1} //left wall
 	};
 	
 	int[][] pegs = {
-		{0, 50, 50, 50},
-		{0, 0, 0, 0},
-		{0, 0, 0, 0},
-		{0, 0, 0, 0}	
+		{80, 80, 30, 50},
+		{230, 280, 20, 200},
+		{50, 200, 25, 100},
+		{200, 100, 10, 500}
 	};
 	
 	int lines[][] = new int[100][5];

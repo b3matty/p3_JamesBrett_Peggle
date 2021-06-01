@@ -184,17 +184,18 @@ public class Panel00 extends JPanel {
 				}
 			}
 		}
-		g.setColor(Color.black);
+		
 		//System.out.println(sx + " " + qx);
 		//System.out.println(ballslope + " " + lineslope);
 		//double slope = Math.atan2(v2d[1], v2d[0]);
 		//g.drawLine((int) p2d[0], (int) p2d[1], (int) (p2d[0]+10*v2d[0]), (int) (p2d[1]+10*v2d[1]));
 		
+		g.setColor(Color.black);
+		
 		g.fillRect(xpos - 5, (int)sd + 10, 10, 20);
 		
 		g.drawString("Score: " + points + " Resets: " + lives, 10, 15);
-		//Music bang = new Music("bab.wav",true); 
-		//bang.play();
+		
 		
 	}
 	

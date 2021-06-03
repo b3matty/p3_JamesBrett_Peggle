@@ -19,18 +19,18 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	int counter = 0;
 	double G = 0.1;
 	
-	double[] p2d = {505, 200};
+	double[] p2d = {550, 500}; //ball starting x and y loc
 	double[] v2d = {0,0};
 	
-	final int xpos = 505;
+	final int xpos = 550;
 	int points = 0;
 	int balls = 10; //number of balls you have available
 	int sides = 13;
 	
 	double snorm = 800;
-	double sd = 450;
+	double sd = 550;
 	double sv = 0;
-	double paddle = 130;
+	double paddle = 180;
 	double rtheta = 0;
 	double ltheta = 0;
 	
@@ -38,20 +38,22 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	boolean rdown, ldown;
 	
 	int preset[][] = {
-		{0, 700, 500, 470,1}, //right paddle
-		{1000, 1200, 1000, 700,1}, //left paddle
-		{1000, 0, 1000, 1000, 1}, //right wall
+		{0, 900, 500, 750,1}, //left paddle
+		{530, 1100, 530, 900,1}, //right paddle
+		{550, 0, 600, 20, 1}, //first bouncey thingy
+		{530, 100, 530, 1000, 1}, //right wall
 		{-1, 0, 1000, 0, 1}, //top wall
-		{0, -1, 0, 1100, 1} //left wall
+		{0, -1, 0, 1100, 1}, //left wall
+		
 	};
 	
 	int[][] pegs = {
-		{(int)(Math.random()*1000)+20, (int)(Math.random()*1000)+20, (int)(Math.random()*30)+20, 50},
-		{(int)(Math.random()*800)+200, (int)(Math.random()*800)+100, (int)(Math.random()*30)+20, 200},
-		{(int)(Math.random()*1000)+20, (int)(Math.random()*800)+100, (int)(Math.random()*30)+20, 100},
-		{(int)(Math.random()*1000)+20, (int)(Math.random()*1000)+20, (int)(Math.random()*30)+20, 500},
-		{(int)(Math.random()*1000)+20, (int)(Math.random()*1000)+20, (int)(Math.random()*30)+20, 500},
-		{(int)(Math.random()*1000)+20, (int)(Math.random()*1000)+20, (int)(Math.random()*30)+20, 500}
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50},
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50},
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50},
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50},
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50},
+		{(int)(Math.random()*510)+10, (int)(Math.random()*700)+20, (int)(Math.random()*20)+10, 50}
 	};
 	
 	int lines[][] = new int[100][5];
@@ -67,7 +69,7 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 			lines[i] = preset[i];
 		}
 		int pre = preset.length;
-		int ct =0;
+		int ct = 0;
 		
 		for(int k = 0; k < pegs.length; k++){
 			int px = pegs[k][0], py = pegs[k][1], length = pegs[k][2], width = pegs[k][1];
@@ -78,7 +80,6 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 				lines[pre + ct][2] = px + (int) (length * Math.cos(i - 2 *Math.PI / sides));
 				lines[pre + ct][3] = py + (int) (length * Math.sin(i - 2 * Math.PI / sides));
 			}
-			
 		}
 		
 		
@@ -98,13 +99,13 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 		
 		
 		if(p2d[1] > 1000 && balls > 0){
-			p2d[0] = 505;
+			p2d[0] = 550;
 			p2d[1] = 0;
 			v2d[0] = 0;
 			v2d[1] = 0;
 			balls--;
 		}
-		if(p2d[0] == 505 && p2d[1] > sd){
+		if(p2d[0] == 550 && p2d[1] > sd){
 			p2d[1] = sd;
 			v2d[1] = Math.min(v2d[1], sv);
 		}
@@ -130,6 +131,8 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 		lines[0][3] = lines[0][1] + (int) (Math.sin(ltheta) * paddle);
 		lines[1][0] = lines[1][2] + (int) (-Math.cos(rtheta) * paddle);
 		lines[1][1] = lines[1][3] + (int) (Math.sin(rtheta) * paddle);
+		
+		
 		int rX = (int) p2d[0];
 		int rY = (int) p2d[1];
 		int r = 10;
@@ -171,7 +174,7 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 				if(interdist <=  bmag + r && futuredist < interdist){ 
 					if(i > preset.length){
 						int ball = (int) Math.floor((i - preset.length)/sides);
-						//System.out.println(pegs[ball][2]);
+						//System.out.println(pegs[ball][4]);
 						points += pegs[ball][3] * bmag;
 					}
 					v2d[0] = Math.cos(da) * bmag;
@@ -179,7 +182,7 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 				}
 			}
 		}
-
+		
 		g.setColor(Color.black);
 		
 		g.fillRect(xpos - 5, (int)sd + 10, 10, 20);

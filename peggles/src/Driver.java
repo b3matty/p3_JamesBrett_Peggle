@@ -28,8 +28,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Driver extends JPanel implements MouseMotionListener{
-	
-	
 	// JFrame for menu
     static JFrame menu;
     
@@ -106,7 +104,7 @@ public class Driver extends JPanel implements MouseMotionListener{
    
    // setbackground of panel
    p.setBackground(Color.blue);
-   
+   panel.setBackground(Color.black);
    // add panel to frame
    menu.add(p);
    
@@ -116,104 +114,74 @@ public class Driver extends JPanel implements MouseMotionListener{
 
    menu.show();
  	
-   //Menu buttons
-   b.addActionListener(new ActionListener()
-{
-  public void actionPerformed(ActionEvent e)
-  {
-    // display/center the jdialog when the button is pressed
-	  menu.setVisible(false);
-	  frame.setVisible(true);
-	  //ImageFollowingMouseTest.createAndShowGUI();
-	  
-	//music
-	muteControl.setValue(true);
-	Clip clip2 = null;
-	try {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("prussian.wav").getAbsoluteFile());
-        clip2 = AudioSystem.getClip();
-        clip2.open(audioInputStream);
-        clip2.start();
-        clip2.loop(5);
-    } catch(Exception ex) {
-        System.out.println("Error with playing sound.");
-    }
-	
-	
-	
-  }
-});
    
-	// brett if u see this weve achieve sorcery 
-	
-	//nishu //bishu
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	
-	
-	
-	
-	
-	
-	
-	}
-	
-	//
-	private BufferedImage image;
-    private Point imagePosition = new Point(150,150);
-    private double imageAngleRad = 0;
-
-    public void ImageFollowingMousePanel()
-    {
-        BufferedImage i = null;	
-        try
-        {
-            i = ImageIO.read(new File("duckinballLAUNCHER.png"));
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        image = i;
-        addMouseMotionListener(this);
-    }
-	
-	protected void paintComponent(Graphics gr) 
-    {
-        super.paintComponent(gr);
-        Graphics2D g = (Graphics2D)gr;
-        g.setRenderingHint(
-            RenderingHints.KEY_RENDERING, 
-            RenderingHints.VALUE_RENDER_QUALITY);
-
-        int cx = image.getWidth() / 2;
-        int cy = image.getHeight() / 2;
-        AffineTransform oldAT = g.getTransform();
-        g.translate(cx+imagePosition.x, cy+imagePosition.y);
-        g.rotate(imageAngleRad);
-        g.translate(-cx, -cy);
-        g.drawImage(image, 0, 0, null);
-        g.setTransform(oldAT);
-
-    }
-//	public boolean isGameOver() {
-//		if(balls < 0) {
-//			frame.setVisible(false);
-//		}
-//	}
-	//
-	@Override
-    public void mouseDragged(MouseEvent e)
-    {
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e)
-    {
-        double dx = e.getX() - imagePosition.getX();
-        double dy = e.getY() - imagePosition.getY();
-        imageAngleRad = Math.atan2(dy, dx);
-        repaint();
-    }
-	    
+   b.addActionListener(new ActionListener()
+	{
+	  public void actionPerformed(ActionEvent e)
+	  {
+	    // display/center the jdialog when the button is pressed
+		  menu.setVisible(false);
+		  frame.setVisible(true);
+		  //ImageFollowingMouseTest.createAndShowGUI();
+		  
+		//music
+		muteControl.setValue(true);
+		Clip clip2 = null;
+		try {
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("prussian.wav").getAbsoluteFile());
+	        clip2 = AudioSystem.getClip();
+	        clip2.open(audioInputStream);
+	        clip2.start();
+	        clip2.loop(10);
+	        
+	    } catch(Exception ex) {
+	        System.out.println("Error with playing sound.");
+	    }
 		
+		
+		
+	  }
+	});
+   
+   
+   
+   b1.addActionListener(new ActionListener()
+	{
+	  public void actionPerformed(ActionEvent e)
+	  {
+	    menu.setVisible(false);
+	    JFrame options = new JFrame();
+	    options.setSize(400,400);
+		options.setVisible(true);
+		
+	  }
+	});
+   
+   b2.addActionListener(new ActionListener()
+	{
+	  public void actionPerformed(ActionEvent e)
+	  {
+	    menu.setVisible(false);
+	    JFrame credits = new JFrame();
+	    credits.setSize(400,400);
+	    credits.setVisible(true);
+		
+	  }
+	});
+   
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	 		
 }

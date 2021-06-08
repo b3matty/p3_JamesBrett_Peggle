@@ -171,7 +171,7 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 		int rX = (int) ball[0];
 		int rY = (int) ball[1];
 		int r = 10;
-		g.setColor(Color.blue);
+		g.setColor(Color.CYAN);
 		g.drawArc(rX-r,rY-r,2*r,2*r,0,360);
 		g.setColor(Color.white);
 		

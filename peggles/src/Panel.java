@@ -21,14 +21,14 @@ import java.awt.event.MouseMotionListener;
 public class Panel extends JPanel implements MouseListener, ActionListener, MouseMotionListener{
 	Timer t = new Timer(1, new Listener());
 	int counter = 0;
-	double G = 0.1;
+	double gravy = 0.1; //gravity
 	
 	double[] ball = {550, 500}; //ball starting x and y loc
 	double[] spring = {0,0};
 	
 	final int xpos = 550;
 	int points = 0;
-	int balls = 1; //number of balls you have available
+	int balls = 6; //number of balls you have available
 	int sides = 13;
 
 	boolean setlock = false;
@@ -52,28 +52,27 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	};
 	
 	int[][] pegs = {
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50},
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50},
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50},
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50},
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50},
-		{(int)(Math.random()*510)+10, (int)(Math.random()*750)+40, (int)(Math.random()*30)+35, 50}
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50}, //(Randomize x loc, randomize y loc, randomize radius)
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50},
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50},
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50},
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50},
+		{(int)(Math.random()*500)+10, (int)(Math.random()*700)+100, (int)(Math.random()*30)+35, 50}
 	};
 	
-	int lines[][] = new int[100][5];
+	int linear[][] = new int[100][5];
 	
 	
 	public Panel() {
 		super();
 		t.start();
-		
-		
+
 		setFocusable(true);
 		
 		addKeyListener(new Key());
 		
 		for(int i = 0; i < preset.length; i++){
-			lines[i] = preset[i];
+			linear[i] = preset[i]; //put data from preset[][] 2d array into linear[][]
 		}
 		int pre = preset.length;
 		int counter = 0;
@@ -83,19 +82,19 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 			for(double i = 0; i < 2 * Math.PI; i+= 2 * Math.PI/ sides){
 				counter++;
 				
-				lines[pre + counter][0] = pointX+(int)(length*Math.cos(i));
+				linear[pre + counter][0] = pointX+(int)(length*Math.cos(i));
 				
-				lines[pre + counter][1] = pointY+(int)(length*Math.sin(i));
+				linear[pre + counter][1] = pointY+(int)(length*Math.sin(i));
 				
-				lines[pre + counter][2] = pointX+(int)(length*Math.cos(i-2*Math.PI/sides));
+				linear[pre + counter][2] = pointX+(int)(length*Math.cos(i-2*Math.PI/sides));
 				
-				lines[pre + counter][3] = pointY+(int)(length*Math.sin(i-2*Math.PI/sides));
+				linear[pre + counter][3] = pointY+(int)(length*Math.sin(i-2*Math.PI/sides));
 			}
 		}
 		 
 		
 	}
-	
+
 	private class Listener implements ActionListener {
 		public void actionPerformed(ActionEvent e){
 			repaint();
@@ -103,33 +102,14 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	}
 	
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);
-		spring[1] += G;
 		
-		ball[1] += spring[1];
-		ball[0] += spring[0];
-		
-		
-		
-		if(ball[1] > 1000 && balls > 0){
-			ball[0] = 550;
-			ball[1] = 0;
-			spring[0] = 0;
-			spring[1] = 0;
-			balls--;
-		}
-		
-//		if(balls == 0) {
-//			Clip clip1 = null;
-//			clip1.loop(0);
-//			clip1.flush();
+//		if(balls == 0) { //play ending music when you run out of balls
 //			//music
 //			Clip clip2 = null;
 //			try {
 //		        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("ode1.wav").getAbsoluteFile());
 //		        clip2 = AudioSystem.getClip();
 //		        clip2.open(audioInputStream);
-//		        
 //		        //clip.start();
 //		    } catch(Exception ex) {
 //		        System.out.println("Error with playing sound.");
@@ -138,6 +118,23 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 //			clip2.start();
 //		}
 		
+		super.paintComponent(g);
+		spring[1] += gravy;
+		
+		ball[1] += spring[1];
+		ball[0] += spring[0];
+		
+		
+		
+		if(ball[1] > 1000 && balls > 0){
+			ball[0] = 550;
+			ball[1] = 100;
+			spring[0] = 0;
+			spring[1] = 0;
+			balls--;
+		}
+		
+		
 		if(ball[0] == 550 && ball[1] > sd){
 			ball[1] = sd;
 			spring[1] = Math.min(spring[1], setVelocity);
@@ -145,84 +142,86 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 		
 		if(setlock == false){
 			setVelocity *= 0.95; 
-			setVelocity -= (sd - snorm)/30;
+			setVelocity -= (sd - snorm)/40;
 			sd += setVelocity;
 		}
-		double rc = 0.1;
+		double rad = 0.1;
 		if(rightDown){
-			rightTheta = Math.max(-0.5, rightTheta - rc);
+			rightTheta = Math.max(-0.5, rightTheta - rad);
 		}
 		else{
-			rightTheta = Math.min(0.5, rightTheta + rc);
+			rightTheta = Math.min(0.5, rightTheta + rad);
 		}
 		if(leftDown){
-			leftTheta = Math.max(-0.5, leftTheta - rc);
+			leftTheta = Math.max(-0.5, leftTheta - rad);
 		}
 		else{
-			leftTheta = Math.min(0.5, leftTheta + rc); 
+			leftTheta = Math.min(0.5, leftTheta + rad); 
 		}
-		
-		lines[0][2] = lines[0][0] + (int) (Math.cos(leftTheta) * paddleLength);
-		lines[0][3] = lines[0][1] + (int) (Math.sin(leftTheta) * paddleLength);
-		lines[1][0] = lines[1][2] + (int) (-Math.cos(rightTheta) * paddleLength);
-		lines[1][1] = lines[1][3] + (int) (Math.sin(rightTheta) * paddleLength);
-		
-		
 		int rX = (int) ball[0];
 		int rY = (int) ball[1];
 		int r = 10;
+		linear[0][2]=linear[0][0]+(int)(Math.cos(leftTheta)*paddleLength);
+		
+		linear[0][3]=linear[0][1]+(int)(Math.sin(leftTheta)*paddleLength);
+		
+		linear[1][0]=linear[1][2]+(int)(-Math.cos(rightTheta)*paddleLength);
+		
+		linear[1][1]=linear[1][3]+(int)(Math.sin(rightTheta)*paddleLength);
+		
+		
+		
 		g.setColor(Color.CYAN);
 		g.drawArc(rX-r,rY-r,2*r,2*r,0,360);
 		g.setColor(Color.white);
 		
-		for(int i = 0; i < lines.length; i++){
-			int x1 = lines[i][0],
-				y1 = lines[i][1],
-				x2 = lines[i][2];
+		for(int i = 0; i < linear.length; i++){
+			int x1 = linear[i][0],
+				y1 = linear[i][1],
+				x2 = linear[i][2];
+			double y2 = linear[i][3] + 0.0001;
 			
-			double y2 = lines[i][3] + 0.0001;
 			if(i > preset.length){
 				g.setColor(Color.red);
 			}
 			
 			g.drawLine(x1, y1, x2, (int) Math.round(y2));
 
-			double mult = Math.sqrt(spring[0] * spring[0] + spring[1] * spring[1]);
+			double mult = Math.sqrt(spring[0]*spring[0]+spring[1]*spring[1]);
 			
-			double lineslope = ((double)(x2 - x1))/((double)(y2 - y1));
+			double linearlope = ((double)(x2 - x1))/((double)(y2 - y1));
 			
 			double pegslope = spring[0] / spring[1];
 			
 			double var1 = ball[0] - pegslope * ball[1]; //difference between the loc of the ball and slope*y
 			
-			double var2 = x1 - lineslope * y1; 
+			double var2 = x1 - linearlope * y1; 
 			
 			
 			double angle1 = Math.atan2(y2 - y1, x2 - x1); //calculates the inverse of a tangent line to get the angle.
 			
 			double angle2 = Math.atan2(spring[1], spring[0]);
 			
-			double da = 2 * angle1 -  angle2;
+			double diffa = 2 * angle1 -  angle2;
 			
-			double y = (var1 - var2)/(lineslope - pegslope);
+			double y = (var1 - var2)/(linearlope - pegslope);
 			
 			double sx = y * pegslope + var1;
 			
 			
 					
 			
-			if(sx >= Math.min(x2, x1) && sx <= Math.max(x1, x2) && 
-			   Math.min(y1, y2) <= y && Math.max(y1, y2) >= y){
+			if(sx >= Math.min(x2, x1) && sx <= Math.max(x1, x2) && Math.min(y1, y2) <= y && Math.max(y1, y2) >= y){
 				double interdist = Math.sqrt(Math.pow(sx - ball[0],2) + Math.pow(y - ball[1],2));
-				double tiny = 0.0001;
-				double futuredist = Math.sqrt(Math.pow(sx - (ball[0] + Math.cos(angle2) * tiny),2) + Math.pow(y - (ball[1] + Math.sin(angle2) * tiny),2));
+				double bound = 0.0001;
+				double futuredist = Math.sqrt(Math.pow(sx - (ball[0] + Math.cos(angle2) * bound),2) + Math.pow(y - (ball[1] + Math.sin(angle2) * bound),2));
 				
-				if(interdist<= mult+r && futuredist < interdist){ //if the ball collides with the pegs
-					if(i > preset.length){
+				if(futuredist < interdist && interdist <= mult+r){ //if the ball collides with the pegs
+					if(i >= preset.length){
 						int ball = (int) Math.floor((i - preset.length)/sides);
 						points += pegs[ball][3] * mult;
 						
-						try {
+						try { //play bababooey upon collision 
 						Clip clip2 = null;
 						AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("bab.wav").getAbsoluteFile());
 				        clip2 = AudioSystem.getClip();
@@ -231,14 +230,17 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 						} catch(Exception ex) {
 							
 						}
-						for(int j = 0; j < lines.length; j++) {
-							for(int c = 0; c < 4; c++) {
-								lines[i][c]= 0;
-							}
+						
+						for(int c = 0; c < linear[c].length; c++) {
+							linear[i][c]= 0;
 						}
+						
+						
+						
 					}
-					spring[0] = Math.cos(da) * mult;
-					spring[1] = Math.sin(da) * mult;
+					spring[0] = Math.cos(diffa) * mult;
+					
+					spring[1] = Math.sin(diffa) * mult;
 				}
 			}
 		}
@@ -251,6 +253,14 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 		
 	}
 	
+	public int getCounter() {
+		return counter;
+	}
+
+	public void setCounter(int counter) {
+		this.counter = counter;
+	}
+
 	public int getBalls() {
 		return balls;
 	}
@@ -282,7 +292,9 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 				
 			}
 		}
+		
 	}
+	
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {

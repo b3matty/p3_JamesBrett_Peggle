@@ -28,22 +28,25 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Driver extends JPanel implements MouseMotionListener{
+	//gif
+	private ImageIcon image = new ImageIcon(getClass().getResource("duckinballLAUNCHER.png"));
+	
 	// JFrame for menu
     static JFrame menu;
-    
+    static JFrame credits;
     // JButton
-    static JButton b, b1, b2;
+    static JButton b, b1, b2, b3;
  
     // label to display text
     static JLabel l;
-	
-    
+	static JLabel names;
+   
 	public static void main(String[] args)
 	{
 		//music
 		Clip clip1 = null;
 		try {
-	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("morning.wav").getAbsoluteFile());
+	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("morning (1).wav").getAbsoluteFile());
 	        clip1 = AudioSystem.getClip();
 	        clip1.open(audioInputStream);
 	        
@@ -59,7 +62,7 @@ public class Driver extends JPanel implements MouseMotionListener{
    		    muteControl.setValue(false); // True to mute the line, false to unmute
    		}
 
-   		clip1.loop(0); // Stops the sound after it runs through its buffer
+   		clip1.loop(1); // Stops the sound after it runs through its buffer
    		clip1.flush();
    		
 	
@@ -67,25 +70,31 @@ public class Driver extends JPanel implements MouseMotionListener{
 	// create a new frame to store text field and button
    menu = new JFrame("Peggle");
    menu.setLocationRelativeTo(null);
+   credits = new JFrame("credits");
+   credits.setLocationRelativeTo(null);
+   
    
   JFrame frame = new JFrame();
   frame.setSize(1010,1080);
   
    
    // create a label to display text
-   l = new JLabel("PEGGLE");	
-
+   l = new JLabel("PEGGLE");
+   names = new JLabel("Brett Matthews && James Bennett");
+   
    // create a new buttons
    b = new JButton("Play");
    b1 = new JButton("Options");
    b2 = new JButton("Credits");
-
+   
+   b3 = new JButton ("Back");
    // create a panel to add buttons
    
    
    
    
    JPanel p = new JPanel();
+   JPanel p1 = new JPanel();
    Panel panel = new Panel();
    //Panel panel = new Panel();
    frame.add(panel);
@@ -97,24 +106,29 @@ public class Driver extends JPanel implements MouseMotionListener{
    p.add(b2);
    p.add(l);
    
-   
+   p1.add(names);
+   p1.add(b3);
   // Background background = new background; 
  
    
    
    // setbackground of panel
-   p.setBackground(Color.blue);
+   p.setBackground(Color.CYAN);
+   p1.setBackground(Color.CYAN);
    panel.setBackground(Color.black);
+   
    // add panel to frame
    menu.add(p);
+   credits.add(p1);
    
    // set the size of frame
-   
    menu.setSize(600, 400);
-
    menu.show();
- 	
    
+   credits.setSize(600,400);
+   credits.show();
+   
+   credits.setVisible(false);
    b.addActionListener(new ActionListener()
 	{
 	  public void actionPerformed(ActionEvent e)
@@ -162,15 +176,39 @@ public class Driver extends JPanel implements MouseMotionListener{
 	  public void actionPerformed(ActionEvent e)
 	  {
 	    menu.setVisible(false);
-	    JFrame credits = new JFrame();
-	    credits.setSize(400,400);
 	    credits.setVisible(true);
+	    //music
+  		muteControl.setValue(true);
+  		Clip clip2 = null;
+  		try {
+  	        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("ode1.wav").getAbsoluteFile());
+  	        clip2 = AudioSystem.getClip();
+  	        clip2.open(audioInputStream);
+  	        clip2.start();
+  	        clip2.loop(0);
+  	        clip2.flush();
+  	    } catch(Exception ex) {
+  	        System.out.println("Error with playing sound.");
+  	    }
+	  }
+	});
+   b3.addActionListener(new ActionListener()
+	{
+	  public void actionPerformed(ActionEvent e)
+	  {
+	    //display/center the jdialog when the button is pressed
+		  credits.setVisible(false);
+		  menu.setVisible(true);
+		  
+		  //music
+		 
+		
 		
 	  }
 	});
-   
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
+	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub

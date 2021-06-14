@@ -37,7 +37,7 @@ public class Panel extends JPanel implements MouseListener, ActionListener, Mous
 	double snorm = 800;
 	double sd = 550;
 	double setVelocity = 0;
-	double paddleLength = 180;
+	double paddleLength = 190;
 	double rightTheta = 0;
 	double leftTheta = 0;
 	

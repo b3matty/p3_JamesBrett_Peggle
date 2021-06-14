@@ -44,6 +44,7 @@ public class Driver extends JPanel implements MouseMotionListener{
     static JLabel l;
 	static JLabel names;
 	static JLabel games;
+	static JLabel playV2;
    
 	public static void main(String[] args)
 	{
@@ -88,7 +89,7 @@ public class Driver extends JPanel implements MouseMotionListener{
    l = new JLabel("PEGGLE");
    names = new JLabel("Brett Matthews && James Bennett");
    games = new JLabel("'Options are optional' - David C.");
-   
+   playV2 =  new JLabel("'Also play Victoria 2' - David C.");
    // create a new buttons
    b = new JButton("Play");
    b1 = new JButton("Options");
@@ -118,6 +119,7 @@ public class Driver extends JPanel implements MouseMotionListener{
    p1.add(b3);
    opt.add(b4);
    opt.add(games);
+   opt.add(playV2);
   // Background background = new background; 
  
    
